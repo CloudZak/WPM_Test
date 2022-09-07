@@ -106,14 +106,41 @@ for (var i = 0; i < words[0].length; i++) {
 var letterTags = document.querySelectorAll('letter');
 var letterNum = 0;
 var letter = words[0][letterNum];
+var typing = false;
 var randomWNum = 0;
+var timerId;
+var timerIdOut;
+var timer = document.querySelector('.timer');
+var seconds;
+var result = 0;
 document.addEventListener('keydown', function (e) {
-  if (e.key === ' ') {
-    SwitchWord();
-  } else if (e.keyCode <= 47) {
-    null;
-  } else {
-    watchLetter(e);
+  if (e.key === 'Enter') {
+    typing = true;
+    seconds = 60;
+    timerId = setInterval(function () {
+      timer.textContent = "".concat(seconds, "s");
+      seconds -= 1;
+    }, 1000);
+    timerIdOut = setTimeout(function () {
+      clearInterval(timerId);
+      typing = false;
+      console.log("Typing ".concat(result, " symbols per 1min"));
+    }, 60000);
+  } else if (e.key === 'Escape') {
+    typing = false;
+    clearInterval(timerId);
+    clearTimeout(timerIdOut);
+  }
+
+  if (typing) {
+    if (e.key === ' ') {
+      SwitchWord();
+    } else if (e.keyCode <= 47) {
+      null;
+    } else {
+      watchLetter(e);
+      result += 1;
+    }
   }
 });
 

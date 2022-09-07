@@ -42,6 +42,34 @@ header {
     margin-bottom: 20px;
 }
 
+.timer {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 300;
+    color:rgb(255, 172, 70);
+    margin-bottom: 15px;
+}
+
+.wordsWrapper {
+    text-align: center;
+    font-size: 36px;
+}
+.letterRight {
+    color:#d1d0c5;
+}
+.letterWorth {
+    color:#ea4040;
+}
+
+.startStop {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.startStop b {
+    color: #92928a;
+}
+
 .restartButton {
     margin-top: 40px;
     text-align: center;
@@ -54,14 +82,4 @@ header {
 
 footer {
     padding-bottom: 5px;
-}
-.wordsWrapper {
-    text-align: center;
-    font-size: 36px;
-}
-.letterRight {
-    color:#d1d0c5;
-}
-.letterWorth {
-    color:#ea4040;
 }

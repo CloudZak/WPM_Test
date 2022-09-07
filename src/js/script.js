@@ -10,15 +10,37 @@ for(let i = 0; i < words[0].length; i++) {
 let letterTags = document.querySelectorAll('letter');
 let letterNum = 0;
 let letter = words[0][letterNum];
+let typing = false;
 
 let randomWNum = 0;
+
+let timerId;
+let timerIdOut;
+let timer = document.querySelector('.timer');
+let seconds;
+let result = 0;
+
 document.addEventListener('keydown', (e) => {
-    if(e.key === ' ') {
-        SwitchWord();
-    } else if(e.keyCode <= 47) {
-        null;
-    }else {
-        watchLetter(e);
+    if (e.key === 'Enter') {
+        typing = true;
+        seconds = 60;
+        timerId = setInterval(() => {timer.textContent = `${seconds}s`;seconds -= 1;}, 1000);
+        timerIdOut = setTimeout(() => { clearInterval(timerId); typing = false;console.log(`Typing ${result} symbols per 1min`)}, 60000);
+    } else if (e.key === 'Escape') {
+        typing = false;
+        clearInterval(timerId);
+        clearTimeout(timerIdOut);
+    }
+
+    if (typing) {
+        if(e.key === ' ') {
+            SwitchWord();
+        } else if(e.keyCode <= 47) {
+            null;
+        }else {
+            watchLetter(e);
+            result+=1;
+        }
     }
 });
 
