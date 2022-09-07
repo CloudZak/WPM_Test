@@ -49,6 +49,13 @@ header {
     color:rgb(255, 172, 70);
     margin-bottom: 15px;
 }
+.WPMres {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 300;
+    color:rgb(255, 172, 70);
+    margin-bottom: 10px;
+}
 
 .wordsWrapper {
     text-align: center;

@@ -10,6 +10,7 @@ for(let i = 0; i < words[0].length; i++) {
 let letterTags = document.querySelectorAll('letter');
 let letterNum = 0;
 let letter = words[0][letterNum];
+let letterType = true;
 let typing = false;
 
 let randomWNum = 0;
@@ -17,17 +18,31 @@ let randomWNum = 0;
 let timerId;
 let timerIdOut;
 let timer = document.querySelector('.timer');
+let WPMres = document.querySelector('.WPMres');
 let seconds;
 let result = 0;
+let correctLetter = 0;
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !typing) {
+        SwitchWord();
+        WPMres.textContent = '';
+        timer.textContent = `60s`;
         typing = true;
-        seconds = 60;
+        seconds = 59;
         timerId = setInterval(() => {timer.textContent = `${seconds}s`;seconds -= 1;}, 1000);
-        timerIdOut = setTimeout(() => { clearInterval(timerId); typing = false;console.log(`Typing ${result} symbols per 1min`)}, 60000);
+        timerIdOut = setTimeout(() => { 
+            clearInterval(timerId); 
+            typing = false;
+            letterType=true;
+            timer.textContent = '';
+            WPMres.textContent = `${Math.ceil(result/5)} wpm | correct ${Math.round(correctLetter/result*100, 0)}%`;
+            correctLetter = 0;
+            result = 0;
+        }, 60000);
     } else if (e.key === 'Escape') {
         typing = false;
+        letterType=true;
         clearInterval(timerId);
         clearTimeout(timerIdOut);
     }
@@ -35,11 +50,15 @@ document.addEventListener('keydown', (e) => {
     if (typing) {
         if(e.key === ' ') {
             SwitchWord();
+            letterType = true;
         } else if(e.keyCode <= 47) {
             null;
-        }else {
+        }else if (letterType) {
             watchLetter(e);
             result+=1;
+            if (words[randomWNum].length === letterNum) {
+                letterType = false;
+            }
         }
     }
 });
@@ -50,6 +69,7 @@ const watchLetter = (ki) => {
         letterTags[letterNum].classList.add('letterRight');
         letterNum += 1;
         letter = words[randomWNum][letterNum];
+        correctLetter+=1;
     } else if(ki.key != letter) {
         letterTags[letterNum].classList.add('letterWorth');
         letterNum += 1;
